@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Courses page</title>
+</head>
+<body >
+<h1 align="center"><em>Courses page</em></h1>
+<hr>
+<div align="center">
+    <div sec:authorize="isAuthenticated()">
+        Welcome, <b><span sec:authentication="name">Username - </span></b>
+        <i><span sec:authentication="principal.authorities"> Roles</span></i>
+    </div>
+    <div align="right">
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Logout">
+        </form>
+    </div>
+    <hr>
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Course id</th>
+        <th>Course name</th>
+        <th>Course duration</th>
+        <th>Company</th>
+        <th>Action</th>
+    </tr>
+    <tr th:each="course : ${courses}">
+        <td th:text="${course.id}"></td>
+        <td th:text="${course.courseName}"></td>
+        <td th:text="${course.duration}"></td>
+        <td th:text="${course.company.getCompanyName()}"></td>
+        <td><a sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')"
+                th:href="@{/course/courses/update-course/{id}(id=${course.id})}">
+            <input type="submit" value="Update course">
+            <a sec:authorize="hasAnyAuthority('ADMIN')"
+                    th:href="@{/course/courses/delete-course/{id}(id=${course.id})}">
+                <input type="submit" value="Delete course">
+            </a>
+        </a>
+        </td>
+    </tr>
+</table>
+</div>
+<br>
+<hr>
+<a sec:authorize="hasAnyAuthority('ADMIN', 'CREATOR')" href="/course/courses/add-course">
+    <input type="submit" value="Create new course"></a>
+<hr>
+<div class="navbar">
+    <a href="/company/companies" class="active">Company</a>
+    <hr>
+    <a href="/teacher/teachers">Teacher page</a>
+    <hr>
+    <a href="/student/students">Student page</a>
+    <hr>
+    <a href="/group/groups">Group page</a>
+    <hr>
+    <a href="/">Back main page</a>
+</div>
+</body>
+</html>

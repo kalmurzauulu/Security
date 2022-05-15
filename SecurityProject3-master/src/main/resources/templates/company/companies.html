@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Companies page</title>
+</head>
+<body >
+<h1 align="center"><em>Companies</em></h1>
+<hr>
+<div align="center">
+    <div sec:authorize="isAuthenticated()">
+        Welcome, <b><span sec:authentication="name">Username - </span></b>
+        <i><span sec:authentication="principal.authorities"> Roles</span></i>
+    </div>
+    <div align="center">
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Logout">
+        </form>
+    </div>
+    <hr>
+<table  border="Black" >
+    <tr>
+        <th>Company id</th>
+        <th>Company name</th>
+        <th>Located country</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="company : ${companies}">
+        <td th:text="${company.id}"></td>
+        <td th:text="${company.companyName}"></td>
+        <td th:text="${company.locatedCountry}"></td>
+        <td><a sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')"
+                th:href="@{/company/companies/update-company/{id}(id=${company.id})}">
+            <input type="submit" value="Update company">
+        </a>
+            <a sec:authorize="hasAnyAuthority('ADMIN')"
+                    th:href="@{/company/companies/delete-company/{id}(id=${company.id})}">
+                <input type="submit" value="Delete company">
+            </a>
+        </td>
+    </tr>
+</table>
+</div>
+<br>
+<hr>
+<a sec:authorize="hasAnyAuthority('ADMIN', 'CREATOR')"
+   th:href="@{/company/companies/add-company}">
+    <input type="submit" value="Create new company"></a>
+<hr>
+<div class="navbar" id="myNavbar">
+    <a href="/course/courses">Course page</a>
+    <hr>
+    <a href="/teacher/teachers">Teacher page</a>
+    <hr>
+    <a href="/student/students">Student page</a>
+    <hr>
+    <a href="/group/groups">Group page</a>
+    <hr>
+    <a href="/" class="btn btn-green">Back main page</a>
+</div>
+</body>
+</html>

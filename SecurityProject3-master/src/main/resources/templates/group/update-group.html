@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update page</title>
+</head>
+<body >
+<h1 align="center"><em>Update group</em></h1>
+<hr>
+<div align="center">
+    <form th:action="@{/group/groups/edit-group/{id}(id=${group.id})}"
+          th:method="post" th:object="${group}">
+        <label for="Group name">Group name</label>
+        <input type="text" th:field="*{groupName}" id="Group name">
+        <br>
+        <label for="Date of start">Date of start</label>
+        <input type="text" th:field="*{dateOfStart}" id="Date of start">
+        <br>
+        <label for="Date of finish">Date of finish</label>
+        <input type="text" th:field="*{dateOfFinish}" id="Date of finish">
+        <br>
+        <label for="Courses">Courses</label>
+        <input type="text" th:field="*{courses}" id="Courses">
+        <br>
+        <input type="submit" value="Update">
+    </form>
+</div>
+</body>
+</html>

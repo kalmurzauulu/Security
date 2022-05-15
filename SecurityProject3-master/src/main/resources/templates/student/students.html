@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Students page</title>
+</head>
+<body>
+<h1 align="center"><em>Students page</em></h1>
+<hr>
+<div align="center">
+
+<div sec:authorize="isAuthenticated()">
+    Welcome, <b><span sec:authentication="name">Username - </span></b>
+    <i><span sec:authentication="principal.authorities"> Roles</span></i>
+</div>
+    <div align="right">
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Logout">
+        </form>
+    </div>
+<hr>
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Student id</th>
+        <th>Student first name</th>
+        <th>Student last name</th>
+        <th>Student email</th>
+        <th>Study format</th>
+        <th>Group</th>
+        <th>Action</th>
+    </tr>
+    <tbody th:each="student : ${students}">
+    <tr>
+        <td th:text="${student.id}"></td>
+        <td th:text="${student.firstName}"></td>
+        <td th:text="${student.lastName}"></td>
+        <td th:text="${student.email}"></td>
+        <td th:text="${student.studyFormat}"></td>
+        <td th:text="${student.group.groupName}"></td>
+        <td><a sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')"
+                th:href="@{/student/students/update-student/{id}(id=${student.id})}">
+            <input type="submit" value="Update"></a>
+            <a sec:authorize="hasAnyAuthority('ADMIN')"
+                    th:href="@{/student/students/delete-student/{id}(id=${student.id})}">
+                <input type="submit" value="Delete"></a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</div>
+<br>
+<hr>
+<a sec:authorize="hasAnyAuthority('ADMIN', 'CREATOR')" href="/student/students/add-student">
+    <input type="submit" value="Create new student"></a>
+<hr>
+<div class="bg-img">
+    <div class="container">
+        <div class="topnav">
+            <a href="/company/companies">Company page</a>
+            <hr>
+            <a href="/course/courses">Course page</a>
+            <hr>
+            <a href="/teacher/teachers">Teacher page</a>
+            <hr>
+            <a href="/group/groups">Group page</a>
+            <hr>
+            <a href="/">Back main page</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

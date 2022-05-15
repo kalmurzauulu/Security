@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<title>Main page</title>
+<head>
+<form align="center">
+    <div>
+        <a th:href="@{/student/students/search}"></a>
+        <label for="search">Search students:</label>
+        <input type="search" id="search" name="g" placeholder="Enter students name">
+        <button>Search</button>
+    </div>
+</form>
+</head>
+<body>
+<div align="center">
+    <hr>
+    <div sec:authorize="isAuthenticated()">
+        <em><strong>Welcome,</strong></em> <b><span sec:authentication="name">Username - </span></b>
+        <i><span sec:authentication="principal.authorities"> Roles</span></i>
+    </div>
+    <div align="right">
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Logout">
+        </form>
+    </div>
+    <hr>
+    <div >
+        <div class="dropdown">
+            <button class="dropbtn">Menu
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <div class="header">
+                    <h2>Menu my project</h2>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <h3>Company</h3>
+                        <a href="/company/companies">Company page</a>
+                        <a href="/company/companies/add-company">Create company</a>
+                    </div>
+                    <div class="column">
+                        <h3>Course</h3>
+                        <a href="/course/courses">Course page</a>
+                        <a href="/course/courses/add-course">Create course</a>
+                    </div>
+                    <div class="column">
+                        <h3>Teacher</h3>
+                        <a href="/teacher/teachers">Teacher page</a>
+                        <a href="/teacher/teachers/add-teacher">Create teacher</a>
+                    </div>
+                    <div class="column">
+                        <h3>Student</h3>
+                        <a href="/student/students">Student page</a>
+                        <a href="/student/students/add-student">Create student</a>
+                    </div>
+                    <div class="column">
+                        <h3>Group</h3>
+                        <a href="/group/groups">Group page</a>
+                        <a href="/group/groups/add-group">Create group</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+</div>
+</body>
+</html>
